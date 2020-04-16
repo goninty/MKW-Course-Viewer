@@ -1,0 +1,101 @@
+﻿<html>
+  <head>
+    <title>Course Viewer</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="three/three.js"></script>
+    <script src="three/OBJLoader.js"></script>
+    <script src="three/MTLLoader.js"></script>
+    <script src="three/OrbitControls.js"></script>
+    <script src="CourseLoader.js"></script>
+
+    <script>
+      "use strict"; // https://stackoverflow.com/q/1335851/72470
+
+      // Global variables that are available in all functions.
+      // Note: You can add your own here, e.g. to store the rendering mode.
+      var camera, scene, renderer, cameraOffset;
+      var controls;
+      var ambLight, dirLight;
+
+      // Initialise the scene, and draw it for the first time.
+      init();
+      animate();
+
+      // Scene initialisation. This function is only run once, at the very beginning.
+      function init() {
+        scene = new THREE.Scene();
+
+        // Set up the camera, move it to (3, 4, 5) and look at the origin (0, 0, 0).
+        camera = new THREE.PerspectiveCamera(
+          45,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        camera.position.set(3, 4, 5);
+        cameraOffset = new THREE.Vector3(0, 0, 0);
+
+		camera.lookAt(cameraOffset);
+		
+        // Basic ambient lighting.
+        ambLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambLight);
+
+        // More complex lighting for 'face' rendering mode (requirement 4).
+        dirLight = new THREE.DirectionalLight(0xffffff);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+
+        // Set up the Web GL renderer.
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.shadowMap.enabled = true;
+        renderer.setPixelRatio(window.devicePixelRatio); // HiDPI/retina rendering
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update();
+
+        // Handle resizing of the browser window.
+        window.addEventListener("resize", handleResize, false);
+      }
+
+      // Handle resizing of the browser window.
+      function handleResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      // Animation loop function. This function is called whenever an update is required.
+      function animate() {
+        requestAnimationFrame(animate);
+
+        controls.update();
+
+        // Render the current scene to the screen.
+        renderer.render(scene, camera);
+	  }
+	  
+	  var courseLoader = new CourseLoader('course/', 'course.obj', 'course.mtl');
+	  courseLoader.load();
+
+    </script>
+  </body>
+</html>
