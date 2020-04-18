@@ -51,7 +51,7 @@
         camera.position.set(30, 40, 50);
         cameraOffset = new THREE.Vector3(0, 0, 0);
 
-		camera.lookAt(cameraOffset);
+		    camera.lookAt(cameraOffset);
 		
         // Basic ambient lighting.
         ambLight = new THREE.AmbientLight(0xffffff);
@@ -65,6 +65,8 @@
         document.body.appendChild(renderer.domElement);
 
         controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.keys = { LEFT: 65, UP: 87, RIGHT: 68, BOTTOM: 83 };
         controls.update();
 
         // Handle resizing of the browser window.
