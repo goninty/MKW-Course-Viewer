@@ -38,6 +38,8 @@ class CourseLoader {
                 c.material.transparent = true;
                 // Enable flat shading to prevent weird flickering issues.
                 c.material.flatShading = true;
+                // Allow for correct transparency on PNGs.
+                c.material.alphaTest = 1;
               });
             
             // Scale course to a more reasonable size.
