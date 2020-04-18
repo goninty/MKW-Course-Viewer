@@ -46,9 +46,9 @@
           45,
           window.innerWidth / window.innerHeight,
           0.1,
-          1000
+          2000
         );
-        camera.position.set(3, 4, 5);
+        camera.position.set(30, 40, 50);
         cameraOffset = new THREE.Vector3(0, 0, 0);
 
 		camera.lookAt(cameraOffset);
@@ -56,11 +56,6 @@
         // Basic ambient lighting.
         ambLight = new THREE.AmbientLight(0xffffff);
         scene.add(ambLight);
-
-        // More complex lighting for 'face' rendering mode (requirement 4).
-        dirLight = new THREE.DirectionalLight(0xffffff);
-        dirLight.castShadow = true;
-        scene.add(dirLight);
 
         // Set up the Web GL renderer.
         renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -93,7 +88,7 @@
         renderer.render(scene, camera);
 	  }
 	  
-	  var courseLoader = new CourseLoader('course/', 'course.obj', 'course.mtl');
+	  var courseLoader = new CourseLoader('courses/course/', 'course.obj', 'course.mtl');
 	  courseLoader.load();
 
     </script>

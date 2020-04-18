@@ -14,6 +14,9 @@ class CourseLoader {
     // Having to save the state of the class... can't go too deep.
     var self = this;
 
+    // Load the course model object.
+    var objLoader = new THREE.OBJLoader();
+
     mtlLoader.load(this.mtlFile,
       function(m) {
         m.preload(); // Preload the materials.
@@ -33,15 +36,18 @@ class CourseLoader {
               function(c) {
                 // Ensure transparent PNGs render correctly.
                 c.material.transparent = true;
+                // Enable flat shading to prevent weird flickering issues.
+                c.material.flatShading = true;
               });
             
             // Scale course to a more reasonable size.
-            o.scale.set(0.0001, 0.0001, 0.0001);
+            o.scale.set(0.001, 0.001, 0.001);
             
+            console.log(o);
             // Add course to scene.
             scene.add(o);
           });
         
-    });
+      });
   }
 }
